@@ -18,12 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    # path('users/', include('users.urls')),
-    # path('transactions/', include('transactions.urls')),
-    # path('budgets/', include('budgets.urls')),
-    # path('goals/', include('goals.urls')),
-    # path('reports/', include('reports.urls')),
-    # Default route can point to a home app or view
-    # path('', include('home.urls')),  # Create a 'home' app for landing pages
+    path('admin/', admin.site.urls),
+    path('users/', include('users.urls')),
+    path('transactions/', include('transactions.urls')),
+    path('budgets/', include('budgets.urls')),
+    path('goals/', include('goals.urls')),
+    path('reports/', include('reports.urls')),
+    path('', include('home.urls')),
 ]
