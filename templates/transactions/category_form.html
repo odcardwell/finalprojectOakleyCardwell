@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} Category - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ action }} Category</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">{{ action }} Category</button>
+        <a href="{% url 'transactions:category_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

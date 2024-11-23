@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Categories - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Your Categories</h2>
+    <a href="{% url 'transactions:category_add' %}" class="btn btn-primary mb-3">Add Category</a>
+    {% if categories %}
+        <ul class="list-group">
+            {% for category in categories %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ category.name }}
+                <div>
+                    <a href="{% url 'transactions:category_edit' category.id %}">Edit</a> |
+                    <a href="{% url 'transactions:category_delete' category.id %}">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no categories.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Budgets - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Your Budgets</h2>
+    <a href="{% url 'budgets:budget_add' %}" class="btn btn-primary mb-3">Add Budget</a>
+    {% if budgets %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Period</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for budget in budgets %}
+                <tr>
+                    <td>{{ budget.category.name }}</td>
+                    <td>${{ budget.amount }}</td>
+                    <td>{{ budget.start_date }} to {{ budget.end_date }}</td>
+                    <td>
+                        <a href="{% url 'budgets:budget_detail' budget.id %}">View</a> |
+                        <a href="{% url 'budgets:budget_edit' budget.id %}">Edit</a> |
+                        <a href="{% url 'budgets:budget_delete' budget.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no budgets.</p>
+    {% endif %}
+</div>
+{% endblock %}

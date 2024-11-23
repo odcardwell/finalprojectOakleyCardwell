@@ -1,13 +1,45 @@
-<!-- templates/transactions/transaction_list.html -->
 {% extends 'base.html' %}
 
-{% block title %}Transactions - FinanceTool{% endblock %}
+{% block title %}Your Transactions - FinanceTool{% endblock %}
 
 {% block content %}
 <div class="container">
     <h2>Your Transactions</h2>
-    <!-- Placeholder content -->
-    <p>List of transactions will be displayed here.</p>
-    <a href="{% url 'transactions:transaction_add' %}" class="btn btn-primary">Add Transaction</a>
+    <a href="{% url 'transactions:category_list' %}" class="btn btn-secondary mb-3">Manage Categories</a>
+    <a href="{% url 'transactions:transaction_add' %}" class="btn btn-primary mb-3">Add Transaction</a>
+    {% if transactions %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.date }}</td>
+                    <td>{{ transaction.get_transaction_type_display }}</td>
+                    <td>{{ transaction.category.name }}</td>
+                    <td>${{ transaction.amount }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>
+                        <a href="{% url 'transactions:transaction_detail' transaction.id %}">View</a> |
+                        <a href="{% url 'transactions:transaction_edit' transaction.id %}">Edit</a> |
+                        <a href="{% url 'transactions:transaction_delete' transaction.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no transactions.</p>
+    {% endif %}
 </div>
 {% endblock %}
+
+

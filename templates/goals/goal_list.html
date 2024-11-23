@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Goals - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Your Goals</h2>
+    <a href="{% url 'goals:goal_add' %}" class="btn btn-primary mb-3">Add Goal</a>
+    {% if goals %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Target Amount</th>
+                    <th>Saved Amount</th>
+                    <th>Deadline</th>
+                    <th>Progress</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for goal in goals %}
+                <tr>
+                    <td>{{ goal.name }}</td>
+                    <td>${{ goal.target_amount }}</td>
+                    <td>${{ goal.saved_amount }}</td>
+                    <td>{{ goal.deadline }}</td>
+                    <td>
+                        {% with progress=goal.saved_amount|divisibleby:goal.target_amount|floatformat:2 %}
+                        {{ progress }}%
+                        {% endwith %}
+                    </td>
+                    <td>
+                        <a href="{% url 'goals:goal_detail' goal.id %}">View</a> |
+                        <a href="{% url 'goals:goal_edit' goal.id %}">Edit</a> |
+                        <a href="{% url 'goals:goal_delete' goal.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no goals.</p>
+    {% endif %}
+</div>
+{% endblock %}

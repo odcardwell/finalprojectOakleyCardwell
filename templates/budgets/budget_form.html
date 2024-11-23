@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} Budget - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ action }} Budget</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">{{ action }} Budget</button>
+        <a href="{% url 'budgets:budget_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

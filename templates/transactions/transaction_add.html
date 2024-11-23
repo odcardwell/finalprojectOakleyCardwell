@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Transaction - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Add Transaction</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Add Transaction</button>
+    </form>
+</div>
+{% endblock %}

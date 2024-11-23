@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Goal Detail - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Goal Detail</h2>
+    <p><strong>Name:</strong> {{ goal.name }}</p>
+    <p><strong>Target Amount:</strong> ${{ goal.target_amount }}</p>
+    <p><strong>Saved Amount:</strong> ${{ goal.saved_amount }}</p>
+    <p><strong>Deadline:</strong> {{ goal.deadline }}</p>
+    <p><strong>Description:</strong> {{ goal.description }}</p>
+    <p><strong>Progress:</strong>
+        {% with progress=goal.saved_amount|divisibleby:goal.target_amount|floatformat:2 %}
+        {{ progress }}%
+        {% endwith %}
+    </p>
+    <a href="{% url 'goals:goal_edit' goal.id %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'goals:goal_delete' goal.id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'goals:goal_list' %}" class="btn btn-secondary">Back to Goals</a>
+</div>
+{% endblock %}
