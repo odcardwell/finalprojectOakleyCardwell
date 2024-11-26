@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Link Bank Account - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Link Your Bank Account</h2>
+    <p>Click the button below to securely link your bank account.</p>
+    <button id="link-button" class="btn btn-primary">Link Account</button>
+</div>
+
+<!-- Include Plaid Link JS library -->
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+
+<script>
+    // Fetch the link_token from the server
+    fetch("{% url 'plaid:get_link_token' %}")
+        .then(response => response.json())
+        .then(data => {
+            if (data.link_token) {
+                const handler = Plaid.create({
+                    token: data.link_token,
+                    onSuccess: function(public_token, metadata) {
+                        // Send the public_token to the server
+                        fetch("{% url 'plaid:exchange_public_token' %}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({
+                                'public_token': public_token
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                alert('Bank account linked successfully!');
+                                // Redirect to the transactions page
+                                window.location.href = "{% url 'transactions:transaction_list' %}";
+                            } else {
+                                alert('Error linking account: ' + data.message);
+                            }
+                        });
+                    },
+                    onExit: function(err, metadata) {
+                        if (err != null) {
+                            console.error('Plaid Link error: ', err);
+                            alert('Plaid Link exited with an error.');
+                        } else {
+                            console.log('Plaid Link exited without error.');
+                        }
+                    }
+                });
+                document.getElementById('link-button').addEventListener('click', function() {
+                    handler.open();
+                });
+            } else {
+                alert('Error generating link token: ' + data.error);
+            }
+        });
+</script>
+{% endblock %}
+
+
+

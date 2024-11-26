@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ns7+1ac6-=3-il1p(_#-blml(2r(j#l$c*y8%_k=as8t6@6or2'
+SECRET_KEY = config('SECRET_KEY')
+
+PLAID_CLIENT_ID = config('PLAID_CLIENT_ID')
+PLAID_SECRET = config('PLAID_SECRET')
+PLAID_ENV = config('PLAID_ENV', default='sandbox')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -45,6 +50,7 @@ INSTALLED_APPS = [
     'goals',
     'reports',
     'home',
+    'plaid_integration',
 ]
 
 MIDDLEWARE = [
