@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'users',
     'transactions',
     'budgets',
-    'goals',
     'reports',
     'home',
     'plaid_integration',

@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-
 # budgets/views.py
+from django.db.models import Sum, F
+from django.db.models.functions import Abs
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Budget
 from .forms import BudgetForm
+from transactions.models import Transaction
 
 @login_required
 def budget_list(request):
@@ -49,5 +49,4 @@ def budget_delete(request, id):
         budget.delete()
         return redirect('budgets:budget_list')
     return render(request, 'budgets/budget_confirm_delete.html', {'budget': budget})
-
 

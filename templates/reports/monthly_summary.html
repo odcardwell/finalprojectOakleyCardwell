@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Monthly Summary - FinanceTool{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Monthly Income and Expenses</h2>
+    <canvas id="monthlyChart" width="400" height="200"></canvas>
+</div>
+
+ <h2 class="mt-5">Budget Performance</h2>
+    {% if budget_data %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Budgeted Amount</th>
+                    <th>Total Expenses</th>
+                    <th>Remaining Amount</th>
+                    <th>Percentage Used</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in budget_data %}
+                <tr>
+                    <td>{{ item.budget.category.name }}</td>
+                    <td>${{ item.budget.amount|floatformat:2 }}</td>
+                    <td>${{ item.total_expenses|floatformat:2 }}</td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar {% if item.status == 'Over Budget' %}bg-danger{% else %}bg-success{% endif %}"
+                                 role="progressbar"
+                                 style="width: {{ item.percentage_used|floatformat:0 }}%;"
+                                 aria-valuenow="{{ item.percentage_used }}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                {{ item.percentage_used|floatformat:0 }}%
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="progress">
+                            <div class="progress-bar {% if item.status == 'Over Budget' %}bg-danger{% else %}bg-success{% endif %}"
+                                 role="progressbar"
+                                 style="width: {{ item.percentage_used|floatformat:0 }}%;"
+                                 aria-valuenow="{{ item.percentage_used }}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                {{ item.percentage_used|floatformat:0 }}%
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ item.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>You have no budgets set up.</p>
+        <a href="{% url 'budgets:budget_add' %}" class="btn btn-primary">Add Budget</a>
+    {% endif %}
+</div>
+
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Prepare data for the chart
+    var ctx = document.getElementById('monthlyChart').getContext('2d');
+    var months = {{ months|safe }};
+    var incomeTotals = {{ income_totals|safe }};
+    var expenseTotals = {{ expense_totals|safe }};
+
+
+    // Create the chart
+    var monthlyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Income',
+                data: incomeTotals,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            }, {
+                label: 'Expenses',
+                data: expenseTotals,
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    stacked: false,
+                },
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -22,7 +22,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('transactions/', include('transactions.urls')),
     path('budgets/', include('budgets.urls')),
-    path('goals/', include('goals.urls')),
     path('reports/', include('reports.urls')),
     path('', include('home.urls')),
     path('plaid/', include('plaid_integration.urls', namespace='plaid')),

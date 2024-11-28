@@ -8,7 +8,7 @@
     <a href="{% url 'transactions:category_list' %}" class="btn btn-secondary mb-3">Manage Categories</a>
     <a href="{% url 'transactions:transaction_add' %}" class="btn btn-primary mb-3">Add Transaction</a>
     <a href="{% url 'plaid:link_account' %}" class="btn btn-success mb-3">Link Bank Account</a>
-    <a href="{% url 'plaid:fetch_transactions' %}" class="btn btn-secondary">Fetch Transactions</a>
+    <a href="{% url 'plaid:fetch_transactions' %}" class="btn btn-secondary">Refresh</a>
 
     {% if transactions %}
         <table class="table table-striped">
