@@ -1,0 +1,97 @@
+:root {
+    --color-light-mint: #e6f4f1;
+    --color-light-cyan: #edfcff;
+    --color-bright-blue: #00a2ef;
+    --color-light-blue: #8ad4fb;
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-grey: #f8f9fa;
+    --color-dark-grey: #343a40;
+}
+
+body {
+    background-color: var(--color-white);
+    color: var(--color-dark-grey);
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar {
+    background-color: var(--color-bright-blue);
+}
+
+.navbar-brand {
+    color: var(--color-white);
+}
+
+.navbar .nav-link {
+    color: var(--color-white);
+}
+
+.navbar .nav-link:hover {
+    color: var(--color-light-mint);
+    background-color: var(--color-light-blue);
+}
+
+.btn-primary {
+    background-color: var(--color-bright-blue);
+    border-color: var(--color-bright-blue);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-light-blue);
+    border-color: var(--color-light-blue);
+}
+
+.btn-secondary {
+    background-color: var(--color-light-blue);
+    border-color: var(--color-light-blue);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-bright-blue);
+    border-color: var(--color-bright-blue);
+}
+
+.table {
+    background-color: var(--color-white);
+}
+
+.table thead th {
+    background-color: var(--color-light-blue);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--color-light-cyan);
+}
+
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-light-blue);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-dark-grey);
+}
+
+p {
+    color: var(--color-dark-grey);
+}
+
+.img-fluid {
+    max-width: 80%;
+    height: auto;
+}
+
+html, body {
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}

@@ -5,10 +5,14 @@
 {% block content %}
 <div class="container">
     <h2>Your Transactions</h2>
-    <a href="{% url 'transactions:category_list' %}" class="btn btn-secondary mb-3">Manage Categories</a>
-    <a href="{% url 'transactions:transaction_add' %}" class="btn btn-primary mb-3">Add Transaction</a>
-    <a href="{% url 'plaid:link_account' %}" class="btn btn-success mb-3">Link Bank Account</a>
-    <a href="{% url 'plaid:fetch_transactions' %}" class="btn btn-secondary">Refresh</a>
+    <div class="btn-group mb-3" role="group" aria-label="Dashboard Actions">
+        <a href="{% url 'transactions:transaction_add' %}" class="btn btn-primary">Add Transaction</a>
+        <a href="{% url 'budgets:budget_add' %}" class="btn btn-secondary">Add Budget</a>
+        <a href="{% url 'plaid:link_account' %}" class="btn btn-success">Link Bank Account</a>
+        {% if plaid_accounts %}
+            <a href="{% url 'plaid:fetch_transactions' %}" class="btn btn-info">Fetch Transactions</a>
+        {% endif %}
+    </div>
 
     {% if transactions %}
         <table class="table table-striped">

@@ -16,7 +16,6 @@
                     <th>Category</th>
                     <th>Budgeted Amount</th>
                     <th>Total Expenses</th>
-                    <th>Remaining Amount</th>
                     <th>Percentage Used</th>
                     <th>Status</th>
                 </tr>
@@ -27,18 +26,6 @@
                     <td>{{ item.budget.category.name }}</td>
                     <td>${{ item.budget.amount|floatformat:2 }}</td>
                     <td>${{ item.total_expenses|floatformat:2 }}</td>
-                    <td>
-                        <div class="progress">
-                            <div class="progress-bar {% if item.status == 'Over Budget' %}bg-danger{% else %}bg-success{% endif %}"
-                                 role="progressbar"
-                                 style="width: {{ item.percentage_used|floatformat:0 }}%;"
-                                 aria-valuenow="{{ item.percentage_used }}"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100">
-                                {{ item.percentage_used|floatformat:0 }}%
-                            </div>
-                        </div>
-                    </td>
                     <td>
                         <div class="progress">
                             <div class="progress-bar {% if item.status == 'Over Budget' %}bg-danger{% else %}bg-success{% endif %}"
