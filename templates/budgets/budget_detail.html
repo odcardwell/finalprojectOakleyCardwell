@@ -1,16 +1,24 @@
 {% extends 'base.html' %}
 
-{% block title %}Budget Detail - FinanceTool{% endblock %}
+{% block title %}Budget Details - FinanceTool{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h2>Budget Detail</h2>
+    <h2>Budget Details</h2>
     <p><strong>Category:</strong> {{ budget.category.name }}</p>
-    <p><strong>Amount:</strong> ${{ budget.amount }}</p>
-    <p><strong>Start Date:</strong> {{ budget.start_date }}</p>
-    <p><strong>End Date:</strong> {{ budget.end_date }}</p>
+    <p><strong>Amount:</strong> ${{ budget.amount|floatformat:2 }}</p>
+    <p><strong>Period:</strong> {{ budget.get_period_display }}</p>
+    <p><strong>Date Range:</strong>
+        {% with start_date=budget.current_period_dates.0 end_date=budget.current_period_dates.1 %}
+            {% if start_date and end_date %}
+                {{ start_date|date:"F j, Y" }} - {{ end_date|date:"F j, Y" }}
+            {% else %}
+                N/A
+            {% endif %}
+        {% endwith %}
+    </p>
     <a href="{% url 'budgets:budget_edit' budget.id %}" class="btn btn-primary">Edit</a>
-    <a href="{% url 'budgets:budget_delete' budget.id %}" class="btn btn-danger">Delete</a>
     <a href="{% url 'budgets:budget_list' %}" class="btn btn-secondary">Back to Budgets</a>
 </div>
 {% endblock %}
+

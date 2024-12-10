@@ -1,3 +1,7 @@
+# INF601 - Advanced Programming in Python
+# Oakley Cardwell
+# Final Project
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm

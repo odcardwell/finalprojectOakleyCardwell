@@ -1,4 +1,6 @@
-from django.db import models
+# INF601 - Advanced Programming in Python
+# Oakley Cardwell
+# Final Project
 
 from django.db import models
 from django.contrib.auth.models import User

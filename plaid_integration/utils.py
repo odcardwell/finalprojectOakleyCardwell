@@ -1,4 +1,7 @@
-# plaid_integration/utils.py
+# INF601 - Advanced Programming in Python
+# Oakley Cardwell
+# Final Project
+
 import plaid
 from plaid.api import plaid_api
 from django.conf import settings

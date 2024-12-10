@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load form_tags %}
+
 {% block title %}{{ action }} Budget - FinanceTool{% endblock %}
 
 {% block content %}
@@ -7,15 +9,60 @@
     <h2>{{ action }} Budget</h2>
     <form method="post">
         {% csrf_token %}
-        {% for field in form %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            {{ form.category.label_tag }}
+            {{ form.category|add_class:"form-control" }}
+            {{ form.category.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.amount.label_tag }}
+            {{ form.amount|add_class:"form-control" }}
+            {{ form.amount.errors }}
+        </div>
+        <div class="form-group">
+            {{ form.period.label_tag }}
+            {{ form.period|add_class:"form-control" }}
+            {{ form.period.errors }}
+        </div>
+        <div id="custom-date-range" style="display: none;">
             <div class="form-group">
-                {{ field.label_tag }}
-                {{ field }}
-                {{ field.errors }}
+                {{ form.start_date.label_tag }}
+                {{ form.start_date|add_class:"form-control" }}
+                {{ form.start_date.errors }}
             </div>
-        {% endfor %}
+            <div class="form-group">
+                {{ form.end_date.label_tag }}
+                {{ form.end_date|add_class:"form-control" }}
+                {{ form.end_date.errors }}
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">{{ action }} Budget</button>
         <a href="{% url 'budgets:budget_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
+
+<!-- Include jQuery and Bootstrap JS if not already included -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        function toggleCustomDateRange() {
+            if ($('#id_period').val() === 'custom') {
+                $('#custom-date-range').show();
+            } else {
+                $('#custom-date-range').hide();
+            }
+        }
+
+        // Initial check
+        toggleCustomDateRange();
+
+        // On change event
+        $('#id_period').change(function() {
+            toggleCustomDateRange();
+        });
+    });
+</script>
 {% endblock %}
+

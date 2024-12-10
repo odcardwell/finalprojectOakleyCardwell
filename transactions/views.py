@@ -1,13 +1,22 @@
-# transactions/views.py
+# INF601 - Advanced Programming in Python
+# Oakley Cardwell
+# Final Project
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Transaction, Category
 from .forms import TransactionForm, CategoryForm
+from plaid_integration.models import PlaidAccount
 
 @login_required
 def transaction_list(request):
     transactions = Transaction.objects.filter(user=request.user).order_by('-date')
-    return render(request, 'transactions/transaction_list.html', {'transactions': transactions})
+    plaid_accounts = PlaidAccount.objects.filter(user=request.user)
+    context = {
+        'transactions': transactions,
+        'plaid_accounts': plaid_accounts,
+    }
+    return render(request, 'transactions/transaction_list.html', context)
 
 @login_required
 def transaction_add(request):

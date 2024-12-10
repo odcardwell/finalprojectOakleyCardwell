@@ -7,32 +7,42 @@
     <h2>Your Budgets</h2>
     <a href="{% url 'budgets:budget_add' %}" class="btn btn-primary mb-3">Add Budget</a>
     {% if budgets %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>Period</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for budget in budgets %}
-                <tr>
-                    <td>{{ budget.category.name }}</td>
-                    <td>${{ budget.amount }}</td>
-                    <td>{{ budget.start_date }} to {{ budget.end_date }}</td>
-                    <td>
-                        <a href="{% url 'budgets:budget_detail' budget.id %}">View</a> |
-                        <a href="{% url 'budgets:budget_edit' budget.id %}">Edit</a> |
-                        <a href="{% url 'budgets:budget_delete' budget.id %}">Delete</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Period</th>
+                <th>Date Range</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for budget in budgets %}
+            <tr>
+                <td>{{ budget.category.name }}</td>
+                <td>${{ budget.amount|floatformat:2 }}</td>
+                <td>{{ budget.get_period_display }}</td>
+                <td>
+                    {% with start_date=budget.current_period_dates.0 end_date=budget.current_period_dates.1 %}
+                        {% if start_date and end_date %}
+                            {{ start_date|date:"F j, Y" }} - {{ end_date|date:"F j, Y" }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    {% endwith %}
+                </td>
+                <td>
+                    <a href="{% url 'budgets:budget_edit' budget.id %}" class="btn btn-sm btn-primary">Edit</a>
+                    <a href="{% url 'budgets:budget_delete' budget.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     {% else %}
-        <p>You have no budgets.</p>
+    <p>You have no budgets set up.</p>
     {% endif %}
 </div>
 {% endblock %}
+

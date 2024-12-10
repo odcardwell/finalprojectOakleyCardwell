@@ -1,8 +1,10 @@
-#!/usr/bin/env python
+# INF601 - Advanced Programming in Python
+# Oakley Cardwell
+# Final Project
+
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
 
 def main():
     """Run administrative tasks."""

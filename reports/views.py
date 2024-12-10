@@ -1,3 +1,7 @@
+# INF601 - Advanced Programming in Python
+# Oakley Cardwell
+# Final Project
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, F
@@ -9,7 +13,6 @@ from collections import defaultdict
 
 @login_required
 def monthly_summary(request):
-    # Existing code to aggregate income and expenses per month
     transactions = Transaction.objects.filter(user=request.user)
     income_data = (
         transactions.filter(transaction_type='income')
@@ -42,17 +45,18 @@ def monthly_summary(request):
     expense_totals = [monthly_data[month]['expense'] for month in months]
 
     # Prepare budget performance data
-    budgets = Budget.objects.filter(user=request.user)
+    budgets = Budget.objects.filter(user=request.user, is_active=True)
     budget_data = []
 
     for budget in budgets:
-        # Calculate total expenses for the budget category and period
+        start_date, end_date = budget.current_period_dates
+
         total_expenses = Transaction.objects.filter(
             user=request.user,
             category=budget.category,
             transaction_type='expense',
-            date__gte=budget.start_date,
-            date__lte=budget.end_date
+            date__gte=start_date,
+            date__lte=end_date
         ).aggregate(total=Sum(Abs(F('amount'))))['total'] or 0
 
         # Calculate the percentage used
@@ -75,12 +79,12 @@ def monthly_summary(request):
             'status': status,
         })
 
-    # Prepare context data
+    # Include budget_data in context
     context = {
+        'budget_data': budget_data,
         'months': json.dumps(months),
         'income_totals': json.dumps(income_totals),
         'expense_totals': json.dumps(expense_totals),
-        'budget_data': budget_data,
     }
     return render(request, 'reports/monthly_summary.html', context)
 

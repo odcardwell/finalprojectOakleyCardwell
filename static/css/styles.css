@@ -9,32 +9,49 @@
     --color-dark-grey: #343a40;
 }
 
+/* Typography and Base */
 body {
     background-color: var(--color-white);
     color: var(--color-dark-grey);
     font-family: 'Open Sans', sans-serif;
 }
 
+/* Navbar */
 .navbar {
     background-color: var(--color-bright-blue);
 }
 
 .navbar-brand {
     color: var(--color-white);
+    padding: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 15px;
+}
+
+.navbar-brand:hover {
+    color: var(--color-light-mint);
+    background-color: var(--color-light-blue);
+    border-radius: 15px;
 }
 
 .navbar .nav-link {
     color: var(--color-white);
+    /* Smooth transitions for hover effects */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
 }
 
 .navbar .nav-link:hover {
     color: var(--color-light-mint);
     background-color: var(--color-light-blue);
+    border-radius: 5px;
 }
 
+/* Buttons */
 .btn-primary {
     background-color: var(--color-bright-blue);
-    border-color: var(--color-bright-blue);
+    border-color: var(--color-white);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-primary:hover {
@@ -43,15 +60,22 @@ body {
 }
 
 .btn-secondary {
+    background-color: var(--color-bright-blue);
+    border-color: var(--color-white);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-secondary:hover {
     background-color: var(--color-light-blue);
     border-color: var(--color-light-blue);
 }
 
-.btn-secondary:hover {
-    background-color: var(--color-bright-blue);
-    border-color: var(--color-bright-blue);
+.btn-success, .btn-info {
+    border-color: var(--color-white);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Tables */
 .table {
     background-color: var(--color-white);
 }
@@ -64,11 +88,19 @@ body {
     background-color: var(--color-light-cyan);
 }
 
+/* Cards */
 .card {
     background-color: var(--color-white);
     border: 1px solid var(--color-light-blue);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
+.card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+/* Headings and Text */
 h1, h2, h3, h4, h5, h6 {
     color: var(--color-dark-grey);
 }
@@ -77,11 +109,13 @@ p {
     color: var(--color-dark-grey);
 }
 
+/* Images */
 .img-fluid {
     max-width: 80%;
     height: auto;
 }
 
+/* Layout */
 html, body {
     height: 100%;
 }
@@ -95,3 +129,39 @@ html, body {
 main {
     flex: 1;
 }
+
+/* Fade-In and Fade-Out Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.1s ease-in forwards;
+}
+
+.fade-out {
+    opacity: 1;
+    animation: fadeOut 0.1s ease-in forwards;
+}
+
+/* Hover Effects for Links and Buttons */
+.navbar .nav-link, .btn {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Optional Subtle Hover Effect for Table Rows */
+.table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: var(--color-light-mint);
+}
+

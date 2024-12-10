@@ -1,16 +1,19 @@
-# budgets/views.py
-from django.db.models import Sum, F
-from django.db.models.functions import Abs
+# INF601 - Advanced Programming in Python
+# Oakley Cardwell
+# Final Project
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Budget
 from .forms import BudgetForm
-from transactions.models import Transaction
 
 @login_required
 def budget_list(request):
     budgets = Budget.objects.filter(user=request.user)
-    return render(request, 'budgets/budget_list.html', {'budgets': budgets})
+    context = {
+        'budgets': budgets,
+    }
+    return render(request, 'budgets/budget_list.html', context)
 
 @login_required
 def budget_add(request):
@@ -23,16 +26,23 @@ def budget_add(request):
             return redirect('budgets:budget_list')
     else:
         form = BudgetForm()
-    return render(request, 'budgets/budget_form.html', {'form': form, 'action': 'Add'})
+    context = {
+        'form': form,
+        'action': 'Add',
+    }
+    return render(request, 'budgets/budget_form.html', context)
 
 @login_required
-def budget_detail(request, id):
-    budget = get_object_or_404(Budget, id=id, user=request.user)
-    return render(request, 'budgets/budget_detail.html', {'budget': budget})
+def budget_detail(request, pk):
+    budget = get_object_or_404(Budget, pk=pk, user=request.user)
+    context = {
+        'budget': budget,
+    }
+    return render(request, 'budgets/budget_detail.html', context)
 
 @login_required
-def budget_edit(request, id):
-    budget = get_object_or_404(Budget, id=id, user=request.user)
+def budget_edit(request, pk):
+    budget = get_object_or_404(Budget, pk=pk, user=request.user)
     if request.method == 'POST':
         form = BudgetForm(request.POST, instance=budget)
         if form.is_valid():
@@ -40,7 +50,11 @@ def budget_edit(request, id):
             return redirect('budgets:budget_list')
     else:
         form = BudgetForm(instance=budget)
-    return render(request, 'budgets/budget_form.html', {'form': form, 'action': 'Edit'})
+    context = {
+        'form': form,
+        'action': 'Edit',
+    }
+    return render(request, 'budgets/budget_form.html', context)
 
 @login_required
 def budget_delete(request, id):
